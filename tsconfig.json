@@ -2,8 +2,18 @@
   "compilerOptions": {
     "target": "es2016",
     "module": "commonjs",
+    "moduleResolution": "Node",
     "outDir": "./dist",
     "baseUrl": "./src",
+    "paths": {
+      "@config/*": ["./config/*"],
+      "@controllers/*": ["./controllers/*"],
+      "@models/*": ["./models/*"],
+      "@middlewares/*": ["./middlewares/*"],
+      "@routes/*": ["./routes/*"],
+      "@typings/*": ["./typings/*"],
+      "@utils/*": ["./utils/*"]
+    },
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
