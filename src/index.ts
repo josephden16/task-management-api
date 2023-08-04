@@ -7,6 +7,10 @@ import { errorHandler, notFound } from "@middlewares/errorHandler";
 import { apiStatusHandler } from "@utils/handlers";
 import authRouter from "@routes/auth.route";
 import userRouter from "@routes/user.route";
+import taskRouter from "@routes/task.route";
+import listRouter from "@routes/list.route";
+import labelRouter from "@routes/label.route";
+import projectRouter from "@routes/project.route";
 
 // Setup
 dotenv.config();
@@ -25,6 +29,10 @@ app.use(morgan("dev"));
 app.get("/status", apiStatusHandler);
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
+app.use("/api/task", taskRouter);
+app.use("/api/list", listRouter);
+app.use("/api/label", labelRouter);
+app.use("/api/project", projectRouter);
 
 // Error Handlers
 app.use(notFound);

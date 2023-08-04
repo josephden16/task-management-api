@@ -1,6 +1,6 @@
 import mongoose from "mongoose"; // Erase if already required
 
-const listSchema = new mongoose.Schema(
+const projectSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,15 +11,10 @@ const listSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
-    project: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Project",
-      required: true,
-    },
-    tasks: [
+    lists: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Task",
+        ref: "List",
       },
     ],
   },
@@ -28,6 +23,6 @@ const listSchema = new mongoose.Schema(
   }
 );
 
-const List = mongoose.model("List", listSchema);
+const Project = mongoose.model("Project", projectSchema);
 
-export default List;
+export default Project;

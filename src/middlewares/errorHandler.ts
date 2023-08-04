@@ -1,9 +1,8 @@
 import { Request, Response, NextFunction } from "express";
+import { createError } from "http-errors-enhanced";
 
 export const notFound = (req: Request, res: Response, next: NextFunction) => {
-  const error = new Error(`Not Found: ${req.originalUrl}`);
-  res.status(404);
-  next(error);
+  next(createError(404, `Not Found: ${req.originalUrl}`));
 };
 
 export const errorHandler = (
