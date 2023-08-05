@@ -7,7 +7,8 @@ declare global {
       PORT?: string;
       PWD: string;
       MONGODB_URL: string;
-      JWT_SECRET: string;
+      ACCESS_TOKEN_SECRET: string;
+      REFRESH_TOKEN_SECRET: string;
     }
   }
 }

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, json, urlencoded } from "express";
+import express, { Express, json, urlencoded } from "express";
 import "express-async-errors";
 import morgan from "morgan";
 import dotenv from "dotenv";
