@@ -193,6 +193,7 @@ export const refresh = asyncHandler(async (req, res, next) => {
         status: "success",
         message: "Token refresh successful",
         data: {
+          user: user,
           accessToken: newAccessToken,
           refreshToken: newRefreshToken,
         },
