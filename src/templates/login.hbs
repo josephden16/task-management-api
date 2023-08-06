@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>Login Notification</title>
+  </head>
+  <body>
+    <p>Hello, {{name}}!</p>
+    <p>You have successfully logged in to your account on
+      {{loginDate}}
+      at
+      {{loginTime}}.</p>
+    {{#if country}}
+      <p>Location: {{#if city}} {{city}}, {{/if}} {{country}}</p>
+    {{/if}}
+    {{#if browser}}
+      <p>Browser:
+        {{browser}}
+        {{#if browserVersion}}({{browserVersion}}){{/if}}</p>
+    {{/if}}
+    {{#if os}}
+      <p>Operating System: {{os}} {{#if osVersion}}({{osVersion}}){{/if}}</p>
+    {{/if}}
+    {{#if device}}
+      <p>Device: {{device}}</p>
+    {{/if}}
+    <p>If this login wasn't initiated by you, please contact our support team
+      immediately.</p>
+  </body>
+</html>

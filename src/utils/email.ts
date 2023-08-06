@@ -3,6 +3,8 @@ import handlebars from "handlebars";
 import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import UAParser from "ua-parser-js";
+import geoip from "geoip-lite";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -39,3 +41,32 @@ export const sendEmail = async (
     throw new Error("Failed to send email");
   }
 };
+
+export function getLoginNotifactionInfo(
+  name: string,
+  req: { headers: any; ip: string }
+): any {
+  const useragent = req.headers["user-agent"] || "";
+  const parser = new UAParser(useragent);
+  const result = parser.getResult();
+  const loginDate = new Date().toLocaleDateString();
+  const loginTime = new Date().toLocaleTimeString();
+  const ip = req.ip;
+  const geo = geoip.lookup(ip);
+  return {
+    name: name,
+    loginDate: loginDate,
+    loginTime: loginTime,
+    ipAddress: ip,
+    city: geo?.city,
+    country: geo?.country,
+    browser: result.browser.name,
+    broswerVersion: result.browser.version,
+    os: result.os.name,
+    osVersion: result.os.version,
+    device:
+      Object.keys(result.device).length === 0
+        ? `${result.device.vendor} ${result.device.model} ${result.device.type}`
+        : null,
+  };
+}

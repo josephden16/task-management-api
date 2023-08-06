@@ -2,6 +2,7 @@ import express, { Express, json, urlencoded } from "express";
 import "express-async-errors";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import cors from "cors";
 import { connectDatabase } from "@config/connectDatabase";
 import { errorHandler, notFound } from "@middlewares/errorHandler";
 import { apiStatusHandler } from "@utils/handlers";
@@ -20,9 +21,13 @@ const app: Express = express();
 // Connect Database
 connectDatabase();
 
+// Express specific setup
+app.set("trust proxy", true);
+
 // Middlewares
 app.use(json());
 app.use(urlencoded({ extended: true }));
+app.use(cors());
 app.use(morgan("dev"));
 
 // Routes

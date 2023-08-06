@@ -13,7 +13,7 @@ import Token from "@models/token.model";
 import ResetToken from "@models/reset-token.model";
 import { randomBytes } from "node:crypto";
 import { compare, hash } from "bcrypt";
-import { sendEmail } from "@utils/email";
+import { getLoginNotifactionInfo, sendEmail } from "@utils/email";
 
 export const signUp = asyncHandler(async (req, res, next) => {
   const data = req.body;
@@ -52,6 +52,14 @@ export const signUp = asyncHandler(async (req, res, next) => {
       token: refreshToken,
       expiresOn: new Date(Date.now() + refreshTokenDurationInMs),
     });
+    await sendEmail(
+      newUser.email,
+      `Welcome ${newUser.name}!`,
+      {
+        name: newUser.name,
+      },
+      "../src/templates/signup.hbs"
+    );
     res.status(201).json({
       status: "success",
       message: "Registration successful!",
@@ -113,6 +121,13 @@ export const login = asyncHandler(async (req, res, next) => {
           token: refreshToken,
           expiresOn: new Date(Date.now() + refreshTokenDurationInMs),
         });
+        const loginNoificationData = getLoginNotifactionInfo(user.name, req);
+        await sendEmail(
+          user.email,
+          "Login Notification",
+          loginNoificationData,
+          "../src/templates/login.hbs"
+        );
         res.status(200).json({
           status: "success",
           message: "Login successful!",
@@ -193,6 +208,14 @@ export const refresh = asyncHandler(async (req, res, next) => {
         lastUsedAt: new Date(),
         expiresOn: new Date(Date.now() - 1000),
       });
+      await sendEmail(
+        user.email,
+        "Account Blocked Notification",
+        {
+          name: user.name,
+        },
+        "../src/templates/account-blocked.hbs"
+      );
       res.json({
         status: "success",
         message: "Token refresh successful",
@@ -249,7 +272,7 @@ export const requestPasswordReset = asyncHandler(async (req, res, next) => {
         link: `${fullUrl}?token=${resetToken}&user=${user.id}`,
         name: user.name,
       },
-      "../src/templates/requestPasswordReset.handlebars"
+      "../src/templates/requestPasswordReset.hbs"
     );
     res.json({
       status: "success",
@@ -308,7 +331,7 @@ export const resetPassword = asyncHandler(async (req, res, next) => {
       {
         name: userFromDb.name,
       },
-      "../src/templates/resetPassword.handlebars"
+      "../src/templates/resetPassword.hbs"
     );
     res.json({
       status: "success",
