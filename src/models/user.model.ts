@@ -1,4 +1,4 @@
-import mongoose from "mongoose"; // Erase if already required
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
